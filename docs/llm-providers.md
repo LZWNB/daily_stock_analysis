@@ -65,7 +65,7 @@ LLM_MY_PROXY_MODELS=gpt-5.5,claude-sonnet-4-6
 ```
 
 OpenAI-compatible Base URL 只填到服务商兼容入口，不额外拼接 `/chat/completions`。本地 `.env`、Docker 和自托管脚本可以直接使用自定义 channel；GitHub Actions 需要 workflow 显式透传同名 `LLM_MY_PROXY_*` 变量。
-小米 MiMo 示例同理：适用于本地 `.env`、Docker 或自托管脚本；若在 GitHub Actions 使用 `LLM_CHANNELS=mimo`，需要在 workflow 中手动补齐 `LLM_MIMO_*` 映射后方可生效。
+小米 MiMo 示例同理：适用于本地 `.env`、Docker 或自托管脚本；本仓库的默认 GitHub Actions workflow 已显式透传 `LLM_MIMO_*`，可直接使用 `LLM_CHANNELS=mimo`。
 
 ## 常用服务商预设
 

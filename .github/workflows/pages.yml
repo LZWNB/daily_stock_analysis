@@ -1,5 +1,7 @@
 name: Deploy Web Preview to GitHub Pages
 
+# Source must be set to GitHub Actions in Settings -> Pages.
+
 on:
   push:
     branches:
@@ -66,3 +68,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+

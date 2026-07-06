@@ -8,6 +8,7 @@ const packageJson = JSON.parse(
   readFileSync(new URL('./package.json', import.meta.url), 'utf-8'),
 ) as { version?: string }
 const buildTime = new Date().toISOString()
+const appBase = process.env.VITE_BASE_PATH?.trim() || '/'
 
 const vendorChunkByPackage: Record<string, string> = {
   react: 'vendor-react',
@@ -92,6 +93,7 @@ const getVendorChunkName = (id: string): string | undefined => {
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: appBase,
   define: {
     __APP_PACKAGE_VERSION__: JSON.stringify(packageJson.version ?? '0.0.0'),
     __APP_BUILD_TIME__: JSON.stringify(buildTime),

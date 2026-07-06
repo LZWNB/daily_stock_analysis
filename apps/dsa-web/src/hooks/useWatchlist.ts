@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { systemConfigApi } from '../api/systemConfig';
+import { STATIC_PREVIEW_MODE } from '../utils/constants';
 import { findMatchingStockCode, includesStockCode } from '../utils/stockCode';
 
 export interface UseWatchlistReturn {
@@ -33,6 +34,13 @@ export function useWatchlist(): UseWatchlistReturn {
   }, []);
 
   const refresh = useCallback(async () => {
+    if (STATIC_PREVIEW_MODE) {
+      if (mountedRef.current) {
+        setCodes([]);
+      }
+      return;
+    }
+
     try {
       const result = await systemConfigApi.getWatchlist();
       if (mountedRef.current) {
@@ -71,6 +79,10 @@ export function useWatchlist(): UseWatchlistReturn {
 
   const addToWatchlist = useCallback(async (stockCode: string) => {
     if (!stockCode || isActioning) return;
+    if (STATIC_PREVIEW_MODE) {
+      showMessage('静态预览模式下无法修改自选股');
+      return;
+    }
     setIsActioning(true);
     try {
       const result = await systemConfigApi.addToWatchlist(stockCode);
@@ -87,6 +99,10 @@ export function useWatchlist(): UseWatchlistReturn {
 
   const removeFromWatchlist = useCallback(async (stockCode: string) => {
     if (!stockCode || isActioning) return;
+    if (STATIC_PREVIEW_MODE) {
+      showMessage('静态预览模式下无法修改自选股');
+      return;
+    }
     setIsActioning(true);
     try {
       const result = await systemConfigApi.removeFromWatchlist(stockCode);

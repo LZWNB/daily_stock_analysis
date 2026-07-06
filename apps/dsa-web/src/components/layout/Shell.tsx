@@ -8,6 +8,7 @@ import { cn } from '../../utils/cn';
 import { ThemeToggle } from '../theme/ThemeToggle';
 import { UiLanguageToggle } from '../i18n/UiLanguageToggle';
 import { useUiLanguage } from '../../contexts/UiLanguageContext';
+import { STATIC_PREVIEW_MODE } from '../../utils/constants';
 
 type ShellProps = {
   children?: React.ReactNode;
@@ -65,6 +66,11 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
         </aside>
 
         <main className="min-h-0 min-w-0 flex-1 pt-14 lg:pl-3 lg:pt-0 touch-pan-y">
+          {STATIC_PREVIEW_MODE ? (
+            <div className="mb-3 rounded-2xl border border-amber-400/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 shadow-soft-card dark:text-amber-100">
+              GitHub Pages 静态预览模式：页面可在线浏览，分析、设置、登录、历史记录等 API 功能需要另外运行后端服务。
+            </div>
+          ) : null}
           {children ?? <Outlet />}
         </main>
       </div>

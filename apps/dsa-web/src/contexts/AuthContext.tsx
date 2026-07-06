@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { createParsedApiError, getParsedApiError, type ParsedApiError } from '../api/error';
 import { authApi } from '../api/auth';
 import { useStockPoolStore } from '../stores';
+import { STATIC_PREVIEW_MODE } from '../utils/constants';
 
 type AuthContextValue = {
   authEnabled: boolean;
@@ -48,6 +49,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loadError, setLoadError] = useState<ParsedApiError | null>(null);
 
   const fetchStatus = useCallback(async () => {
+    if (STATIC_PREVIEW_MODE) {
+      setIsLoading(false);
+      setLoadError(null);
+      setAuthEnabled(false);
+      setLoggedIn(false);
+      setPasswordSet(false);
+      setPasswordChangeable(false);
+      setSetupState('no_password');
+      return;
+    }
+
     setIsLoading(true);
     setLoadError(null);
     try {

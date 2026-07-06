@@ -23,6 +23,7 @@ import type { SetupStatusResponse } from '../types/systemConfig';
 import { normalizeReportLanguage } from '../utils/reportLanguage';
 import type { MarketReviewPayload, StockBarItem, TaskInfo } from '../types/analysis';
 import type { RunFlowSnapshotSource } from '../types/runFlow';
+import { STATIC_PREVIEW_MODE } from '../utils/constants';
 
 type MarketReviewNotice = {
   variant: 'success' | 'warning' | 'danger';
@@ -171,6 +172,11 @@ const HomePage: React.FC = () => {
   }, [t]);
 
   useEffect(() => {
+    if (STATIC_PREVIEW_MODE) {
+      setSetupStatus(null);
+      return undefined;
+    }
+
     let active = true;
     systemConfigApi.getSetupStatus()
       .then((status) => {
@@ -190,6 +196,11 @@ const HomePage: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (STATIC_PREVIEW_MODE) {
+      setAnalysisSkills([]);
+      return undefined;
+    }
+
     let active = true;
     agentApi.getSkills()
       .then((response) => {
@@ -370,6 +381,7 @@ const HomePage: React.FC = () => {
     syncTaskFailed,
     refreshActiveTasks,
     removeTask,
+    enabled: !STATIC_PREVIEW_MODE,
   });
 
   const watchlistState = useWatchlist();

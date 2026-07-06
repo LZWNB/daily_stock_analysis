@@ -11,6 +11,10 @@ const apiClient = axios.create({
   },
 });
 
+const appBasePath = import.meta.env.BASE_URL === '/'
+  ? ''
+  : import.meta.env.BASE_URL.replace(/\/$/, '');
+
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -18,7 +22,7 @@ apiClient.interceptors.response.use(
       const path = window.location.pathname + window.location.search;
       if (!path.startsWith('/login')) {
         const redirect = encodeURIComponent(path);
-        window.location.assign(`/login?redirect=${redirect}`);
+        window.location.assign(`${appBasePath}/login?redirect=${redirect}`);
       }
     }
     attachParsedApiError(error);

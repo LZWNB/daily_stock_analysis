@@ -24,6 +24,10 @@ const AlertsPage = lazy(() => import('./pages/AlertsPage'));
 const TokenUsagePage = lazy(() => import('./pages/TokenUsagePage'));
 const StockScreeningPage = lazy(() => import('./pages/StockScreeningPage'));
 
+const routerBasename = import.meta.env.BASE_URL === '/'
+  ? undefined
+  : import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const AppContent: React.FC = () => {
   const location = useLocation();
   const { authEnabled, loggedIn, isLoading, loadError, refreshStatus } = useAuth();
@@ -97,7 +101,7 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <UiLanguageProvider>
-      <Router>
+      <Router basename={routerBasename}>
         <AuthProvider>
           <AppContent />
         </AuthProvider>
